@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		2B45D3032CAE4E90009C7DAD /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B45D3022CAE4E8E009C7DAD /* Home.swift */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		2BA9E86E2CAAFAFC00907618 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -24,6 +28,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2B45D3022CAE4E8E009C7DAD /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
 		2BA9E8582CAAFAFA00907618 /* MarketVerse.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MarketVerse.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2BA9E86D2CAAFAFC00907618 /* MarketVerseTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MarketVerseTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2BA9E8772CAAFAFC00907618 /* MarketVerseUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MarketVerseUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -72,9 +77,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2B45D3012CAE4503009C7DAD /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				2B45D3022CAE4E8E009C7DAD /* Home.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		2BA9E84F2CAAFAFA00907618 = {
 			isa = PBXGroup;
 			children = (
+				2B45D3012CAE4503009C7DAD /* Views */,
 				2BA9E85A2CAAFAFA00907618 /* MarketVerse */,
 				2BA9E8702CAAFAFC00907618 /* MarketVerseTests */,
 				2BA9E87A2CAAFAFC00907618 /* MarketVerseUITests */,
@@ -236,6 +250,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2B45D3032CAE4E90009C7DAD /* Home.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
