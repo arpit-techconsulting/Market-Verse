@@ -8,7 +8,7 @@
 import Foundation
 
 struct HomeVM {
-    let networkManager = NetworkManager()
+    private let networkManager = NetworkManager()
     
     func fetchApiData() async {
         do {
