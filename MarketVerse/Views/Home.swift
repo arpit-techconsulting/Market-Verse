@@ -9,7 +9,7 @@ import SwiftUI
 
 struct Home: View {
     
-    let homeViewModel = HomeVM()
+    private let homeViewModel = HomeVM()
     
     var body: some View {
         Text("Hello, World!")
