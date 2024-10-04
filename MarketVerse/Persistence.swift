@@ -20,12 +20,12 @@ struct PersistenceController {
             container.persistentStoreDescriptions.first?.url = URL(fileURLWithPath: "/dev/null")
         }
 
-        container.loadPersistentStores { _, error in
-            if let error = error as NSError? {
-                // Handle the error properly in production
-                fatalError("Unresolved error \(error), \(error.userInfo)")
-            }
-        }
+//        container.loadPersistentStores { _, error in
+//            if let error = error as NSError? {
+//                // Handle the error properly in production
+//                fatalError("Unresolved error \(error), \(error.userInfo)")
+//            }
+//        }
 
         // Enable automatic merging from parent context
         container.viewContext.automaticallyMergesChangesFromParent = true
