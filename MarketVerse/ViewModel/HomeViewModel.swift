@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct HomeVM {
+struct HomeViewModel {
     private let networkManager = NetworkManager()
     private let coreDataManager = CoreDataManager() // there are two dependencies in one structure, work on removing the dependencies (not a good practice)
     

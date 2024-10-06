@@ -7,10 +7,11 @@
 
 import SwiftUI
 
+// SubView
 struct TabBarView: View {
     
     @Binding var selectedTab: HomeView.Tab
-    var homeViewModel: HomeVM
+    var homeViewModel: HomeViewModel
     
     var body: some View {
         TabView(selection: $selectedTab) {

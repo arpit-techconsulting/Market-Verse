@@ -7,9 +7,10 @@
 
 import SwiftUI
 
+// Parent View
 struct HomeView: View {
     
-    private let homeViewModel = HomeVM()
+    private let homeViewModel = HomeViewModel()
     @State private var selectedTab: Tab = .home
 
     enum Tab {
