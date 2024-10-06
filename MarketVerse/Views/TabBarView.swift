@@ -44,6 +44,8 @@ struct TabBarView: View {
                 }
                 .tag(HomeView.Tab.account)
         }
+        .accentColor(Color.init(hex: "#DB3022"))
+        
     }
 }
 

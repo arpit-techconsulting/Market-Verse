@@ -30,7 +30,8 @@ struct HomeView: View {
                                 // Action for cart icon button
                                 print("Cart icon tapped")
                             }) {
-                                Image(systemName: "cart")
+                                Image(systemName: "cart.fill")
+                                    .accentColor(Color(hex: "#edc240"))
                             }
                         }
                     }
