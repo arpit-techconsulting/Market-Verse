@@ -14,20 +14,34 @@ struct ProductCardView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             ZStack(alignment: .topTrailing) {
+                // Handle AsyncImage with different states
                 if let imageUrl = URL(string: product.thumbnail ?? "") {
-                    AsyncImage(url: imageUrl) { image in
-                        image
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 160, height: 160)
-                            .cornerRadius(5)
-                    } placeholder: {
-                        Color.gray
-                            .frame(width: 160, height: 160)
-                            .cornerRadius(5)
+                    AsyncImage(url: imageUrl) { phase in
+                        switch phase {
+                        case .empty:
+                            ProgressView() // Show progress while loading
+                                .frame(width: 160, height: 160)
+                                .cornerRadius(5)
+                        case .success(let image):
+                            image
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 160, height: 160)
+                                .cornerRadius(5)
+                        case .failure:
+                            Image(systemName: "photo") // Show placeholder on failure
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 160, height: 160)
+                                .cornerRadius(5)
+                                .foregroundColor(.gray)
+                        @unknown default:
+                            EmptyView()
+                        }
                     }
                 }
                 
+                // favorite button
                 Button(action: {
                     favProductsViewModel.toggleFavoriteStatus(productID: Int(product.prod_id))
                 }) {
@@ -55,6 +69,25 @@ struct ProductCardView: View {
                 .foregroundColor(Color.init(hex: "#DB3022"))
                 .font(.caption)
                 .lineLimit(1)
+            Button(action: {
+                print("Add to cart button tapped")
+            }) {
+                HStack {
+                    Spacer()
+                    Text("Add to Bag")
+                        .font(.system(size: 12))
+                        .lineLimit(1)
+                        .font(.headline)
+                        .foregroundStyle(.white)
+                    Spacer()
+                    Image(systemName: "bag")
+                        .font(.system(size: 12))
+                        .foregroundStyle(.white)
+                }
+                .padding()
+                .background(Color(hex: "#DB3022"))
+                .cornerRadius(5)
+            }
         }
         .padding()
         .cornerRadius(10)
