@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct ProductCardView: View {
-    @State private var isFavorite = false
     var product: Products
+    @ObservedObject var favProductsViewModel: FavProductsViewModel
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -29,13 +29,13 @@ struct ProductCardView: View {
                 }
                 
                 Button(action: {
-                    isFavorite.toggle()
+                    favProductsViewModel.toggleFavoriteStatus(productID: Int(product.prod_id))
                 }) {
-                    Image(systemName: isFavorite ? "heart.fill" : "heart")
+                    Image(systemName: favProductsViewModel.isFavorite(productID: Int(product.prod_id)) ? "heart.fill" : "heart")
                         .resizable()
                         .frame(width: 20, height: 20)
                         .padding(8)
-                        .foregroundColor(isFavorite ? .red : .gray)
+                        .foregroundColor(favProductsViewModel.isFavorite(productID: Int(product.prod_id)) ? .red : .gray)
                         .background(Color.white.opacity(0.7))
                         .clipShape(Circle())
                         .padding([.top, .trailing], 8)

@@ -11,6 +11,8 @@ struct CategoryRowView: View {
     var category: String
     var products: [Products]
     
+    @ObservedObject var favProductsViewModel: FavProductsViewModel
+    
     @State private var isSheetPresented = false
     
     var body: some View {
@@ -28,7 +30,7 @@ struct CategoryRowView: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(alignment: .top, spacing: 16) {
                     ForEach(products, id: \.self) {product in
-                        ProductCardView(product: product)
+                        ProductCardView(product: product, favProductsViewModel: favProductsViewModel)
                     }
                 }
                 .padding(.horizontal)
@@ -36,7 +38,7 @@ struct CategoryRowView: View {
         }
         .padding(.vertical, 8)
         .sheet(isPresented: $isSheetPresented) {
-            ProductsGridView(category: category, products: products)
+            ProductsGridView(category: category, products: products, favProductsViewModel: favProductsViewModel)
         }
     }
 }
