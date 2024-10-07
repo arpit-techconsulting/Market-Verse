@@ -11,6 +11,8 @@ struct CategoryRowView: View {
     var category: String
     var products: [Products]
     
+    @State private var isSheetPresented = false
+    
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
@@ -18,7 +20,7 @@ struct CategoryRowView: View {
                     .font(.headline)
                 Spacer()
                 Button("VIEW ALL") {
-                    
+                    isSheetPresented = true
                 }
             }
             .padding(.horizontal)
@@ -33,5 +35,8 @@ struct CategoryRowView: View {
             }
         }
         .padding(.vertical, 8)
+        .sheet(isPresented: $isSheetPresented) {
+            ProductsGridView(category: category, products: products)
+        }
     }
 }
