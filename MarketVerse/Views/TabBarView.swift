@@ -12,19 +12,21 @@ struct TabBarView: View {
     
     @Binding var selectedTab: HomeView.Tab
     var homeViewModel: HomeViewModel
+    var categories: [String]
     
     var body: some View {
         TabView(selection: $selectedTab) {
             // Home Tab
-            VStack {
-                Text("Home View")
-                    .onAppear {
-                        let paths = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)
-                        print(paths[0])
-                        Task {
-                            await homeViewModel.fetchApiData()
+            ScrollView {
+                VStack(alignment: .leading) {
+                    ForEach(categories, id: \.self) {category in
+                        let products = homeViewModel.fetchProductsByCategory(category: category)
+                        if !products.isEmpty {
+                            CategoryRowView(category: category, products: products)
                         }
                     }
+                }
+                .padding()
             }
             .tabItem {
                 Label("Home", systemImage: "house.fill")

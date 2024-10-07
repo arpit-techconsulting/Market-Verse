@@ -13,11 +13,12 @@ struct HomeViewModel {
     
     func fetchApiData() async {
         // Check if data is already saved in Core Data
-        let isDataSaved = UserDefaults.standard.bool(forKey: "isDataSaved")
-        guard !isDataSaved else {
-            print("Data is already saved in Core Data. Skipping Api Call")
-            return
-        }
+//        let isDataSaved = UserDefaults.standard.bool(forKey: "isDataSaved")
+//        guard !isDataSaved else {
+//            print("Data is already saved in Core Data. Skipping Api Call")
+//            completion()
+//            return
+//        }
         
         do {
             let apiData: Model = try await networkManager.apiCall(apiUrl: "https://dummyjson.com/products?limit=0&skip=0")
@@ -25,9 +26,18 @@ struct HomeViewModel {
             await coreDataManager.saveToCoreData(products: apiData.products)
             
             // Set flag for storing data in Core Data
-            UserDefaults.standard.set(true, forKey: "isDataSaved")
+//            UserDefaults.standard.set(true, forKey: "isDataSaved")
         } catch {
             print("Error in fetching data from Api: \(error.localizedDescription)")
         }
+    }
+    
+    func fetchProductsByCategory(category: String) -> [Products] {
+        coreDataManager.fetchProductsByCategory(category: category)
+    }
+    
+    @MainActor
+    func fetchAllCategories() -> [String] {
+        coreDataManager.fetchAllCategories()
     }
 }

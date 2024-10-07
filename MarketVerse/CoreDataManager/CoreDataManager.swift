@@ -61,4 +61,30 @@ struct CoreDataManager {
             }
         }
     }
+    
+    func fetchProductsByCategory(category: String) -> [Products] {
+        let fetchRequest = NSFetchRequest<Products>(entityName: "Products")
+        fetchRequest.predicate = NSPredicate(format: "category == %@", category)
+        
+        do {
+            return try context.fetch(fetchRequest)
+        } catch {
+            print("Failed to fetch Products by category: \(error.localizedDescription)")
+            return []
+        }
+    }
+    
+    func fetchAllCategories() -> [String] {
+        let fetchRequest = NSFetchRequest<Products>(entityName: "Products")
+        
+        do {
+            let products = try context.fetch(fetchRequest)
+            let categories = Set(products.compactMap { $0.category })
+//            print(categories)
+            return Array(categories)
+        } catch {
+            print("Failed to fetch all products to extract categories: \(error.localizedDescription)")
+            return []
+        }
+    }
 }

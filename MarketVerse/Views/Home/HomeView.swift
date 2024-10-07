@@ -12,6 +12,7 @@ struct HomeView: View {
     
     private let homeViewModel = HomeViewModel()
     @State private var selectedTab: Tab = .home
+    @State private var categories: [String] = []
 
     enum Tab {
         case home
@@ -21,7 +22,7 @@ struct HomeView: View {
     
     var body: some View {
         NavigationView {
-            TabBarView(selectedTab: $selectedTab, homeViewModel: homeViewModel)
+            TabBarView(selectedTab: $selectedTab, homeViewModel: homeViewModel, categories: categories)
                 .navigationTitle(navigationTitle(for: selectedTab))
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
@@ -36,6 +37,19 @@ struct HomeView: View {
                             }
                         }
                     }
+                }
+                .onAppear() {
+                    let paths = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)
+                    print(paths[0])
+                    
+                    Task {
+                        await homeViewModel.fetchApiData()
+                        DispatchQueue.main.async {
+                            categories = homeViewModel.fetchAllCategories()
+                            print("Fetched categories after API call: \(categories)")
+                        }
+                    }
+    
                 }
         }
     }
