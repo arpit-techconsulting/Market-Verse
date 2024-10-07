@@ -74,7 +74,7 @@ struct ProductCardView: View {
             }) {
                 HStack {
                     Spacer()
-                    Text("Add to Bag")
+                    Text("Add to Cart")
                         .font(.system(size: 12))
                         .lineLimit(1)
                         .font(.headline)

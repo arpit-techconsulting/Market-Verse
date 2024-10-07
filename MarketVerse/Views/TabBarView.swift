@@ -36,7 +36,7 @@ struct TabBarView: View {
             .tag(HomeView.Tab.home)
             
             // Favorites Tab
-            FavoriteView(favProductsViewModel: favProductsViewModel)
+            FavoriteView(favProductsViewModel: favProductsViewModel, selectedTab: $selectedTab)
                 .tabItem {
                     Label("Favorites", systemImage: "heart.fill")
                 }
