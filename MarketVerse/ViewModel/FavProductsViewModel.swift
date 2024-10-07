@@ -28,9 +28,17 @@ class FavProductsViewModel: ObservableObject {
         let newStatus = !currentStatus
         favoriteProducts[productID] = newStatus
         coreDataManager.updateFavoriteStatus(productID: productID, isFavorite: newStatus)
+        
+        if !newStatus {
+            favoriteProducts.removeValue(forKey: productID) // Instantly removes item from favorites section
+        }
     }
     
     func isFavorite(productID: Int) -> Bool {
         return coreDataManager.isProductFavorite(productID: productID)
+    }
+    
+    func getProductByID(productID: Int) -> Products? {
+        return coreDataManager.getProductByID(productID: productID)
     }
 }

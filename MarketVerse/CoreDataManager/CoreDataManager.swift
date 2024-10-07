@@ -138,4 +138,16 @@ struct CoreDataManager {
             return []
         }
     }
+    
+    func getProductByID(productID: Int) -> Products? {
+        let fetchRequest = NSFetchRequest<Products>(entityName: "Products")
+        fetchRequest.predicate = NSPredicate(format: "prod_id == %d", productID)
+        
+        do {
+            return try context.fetch(fetchRequest).first
+        } catch {
+            print("Failed to fetch Product with product id: \(error.localizedDescription)")
+            return nil
+        }
+    }
 }
