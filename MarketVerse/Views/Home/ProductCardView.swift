@@ -8,21 +8,37 @@
 import SwiftUI
 
 struct ProductCardView: View {
+    @State private var isFavorite = false
     var product: Products
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            if let imageUrl = URL(string: product.thumbnail ?? "") {
-                AsyncImage(url: imageUrl) { image in
-                    image
+            ZStack(alignment: .topTrailing) {
+                if let imageUrl = URL(string: product.thumbnail ?? "") {
+                    AsyncImage(url: imageUrl) { image in
+                        image
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 160, height: 160)
+                            .cornerRadius(5)
+                    } placeholder: {
+                        Color.gray
+                            .frame(width: 160, height: 160)
+                            .cornerRadius(5)
+                    }
+                }
+                
+                Button(action: {
+                    isFavorite.toggle()
+                }) {
+                    Image(systemName: isFavorite ? "heart.fill" : "heart")
                         .resizable()
-                        .scaledToFit()
-                        .frame(width: 140, height: 140)
-                        .cornerRadius(5)
-                } placeholder: {
-                    Color.gray
-                        .frame(width: 140, height: 140)
-                        .cornerRadius(5)
+                        .frame(width: 20, height: 20)
+                        .padding(8)
+                        .foregroundColor(isFavorite ? .red : .gray)
+                        .background(Color.white.opacity(0.7))
+                        .clipShape(Circle())
+                        .padding([.top, .trailing], 8)
                 }
             }
             Text(product.title ?? "Unknown")
