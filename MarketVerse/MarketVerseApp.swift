@@ -13,7 +13,7 @@ struct MarketVerseApp: App {
 
     var body: some Scene {
         WindowGroup {
-            Home()
+            HomeView()
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }
