@@ -10,10 +10,11 @@ import SwiftUI
 @main
 struct MarketVerseApp: App {
     let persistenceController = PersistenceController.shared
+    let favProductsViewModel = FavProductsViewModel()
 
     var body: some Scene {
         WindowGroup {
-            HomeView()
+            HomeView(favProductsViewModel: favProductsViewModel)
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }

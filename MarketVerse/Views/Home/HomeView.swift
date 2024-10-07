@@ -13,6 +13,8 @@ struct HomeView: View {
     private let homeViewModel = HomeViewModel()
     @State private var selectedTab: Tab = .home
     @State private var categories: [String] = []
+    
+    @ObservedObject var favProductsViewModel: FavProductsViewModel
 
     enum Tab {
         case home
@@ -22,7 +24,7 @@ struct HomeView: View {
     
     var body: some View {
         NavigationView {
-            TabBarView(selectedTab: $selectedTab, homeViewModel: homeViewModel, categories: categories)
+            TabBarView(selectedTab: $selectedTab, homeViewModel: homeViewModel, categories: categories, favProductsViewModel: favProductsViewModel)
                 .navigationTitle(navigationTitle(for: selectedTab))
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
@@ -59,7 +61,7 @@ struct HomeView: View {
         case .home:
             return "Home"
         case .favorites:
-            return "Favorites"
+            return "WishList"
         case .account:
             return "Account"
         }
@@ -67,5 +69,6 @@ struct HomeView: View {
 }
 
 #Preview {
-    HomeView()
+    let previewFavProductsViewModel = FavProductsViewModel()
+    return HomeView(favProductsViewModel: previewFavProductsViewModel)
 }

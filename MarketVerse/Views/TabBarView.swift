@@ -14,6 +14,8 @@ struct TabBarView: View {
     var homeViewModel: HomeViewModel
     var categories: [String]
     
+    @ObservedObject var favProductsViewModel: FavProductsViewModel
+    
     var body: some View {
         TabView(selection: $selectedTab) {
             // Home Tab
@@ -22,7 +24,7 @@ struct TabBarView: View {
                     ForEach(categories, id: \.self) {category in
                         let products = homeViewModel.fetchProductsByCategory(category: category)
                         if !products.isEmpty {
-                            CategoryRowView(category: category, products: products)
+                            CategoryRowView(category: category, products: products, favProductsViewModel: favProductsViewModel)
                         }
                     }
                 }
@@ -34,7 +36,7 @@ struct TabBarView: View {
             .tag(HomeView.Tab.home)
             
             // Favorites Tab
-            Text("Favorites View")
+            FavoriteView(favProductsViewModel: favProductsViewModel)
                 .tabItem {
                     Label("Favorites", systemImage: "heart.fill")
                 }
