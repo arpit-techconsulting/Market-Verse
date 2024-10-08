@@ -8,7 +8,18 @@
 import Foundation
 import CoreData
 
-struct CoreDataManager {
+protocol CoreDataManagerAction {
+    func saveToCoreData(products: [Prods]) async
+    func saveImages(product: Products, imageUrls: [String])
+    func fetchProductsByCategory(category: String) -> [Products]
+    func fetchAllCategories() -> [String]
+    func updateFavoriteStatus(productID: Int, isFavorite: Bool)
+    func isProductFavorite(productID: Int) -> Bool
+    func fetchAllFavorites() -> [FavProducts]
+    func getProductByID(productID: Int) -> Products?
+}
+
+struct CoreDataManager: CoreDataManagerAction {
     private let context = PersistenceController.shared.container.viewContext
     
     func saveToCoreData(products: [Prods]) async {
@@ -48,6 +59,8 @@ struct CoreDataManager {
                 prodEntity.minOrderQuant = prod.minimumOrderQuantity
                 prodEntity.thumbnail = prod.thumbnail
                 
+                saveImages(product: prodEntity, imageUrls: prod.images)
+                
             } catch {
                 print("Failed to fetch or save product: \(error.localizedDescription)")
             }
@@ -62,6 +75,33 @@ struct CoreDataManager {
         }
     }
     
+    // Save the images to Images Entity
+    func saveImages(product: Products, imageUrls: [String]) {
+        let imageFetchRequest = NSFetchRequest<Images>(entityName: "Images")
+        imageFetchRequest.predicate = NSPredicate(format: "product == %@", product)
+        
+        do {
+            let existingImages = try context.fetch(imageFetchRequest)
+            
+            // Delete existing images
+            for existingImage in existingImages {
+                context.delete(existingImage)
+            }
+            
+            // Assigning new images
+            imageUrls.forEach {imageUrl in
+                let imageEntity = Images(context: context)
+                imageEntity.img_url = imageUrl
+                imageEntity.prod_id = product.prod_id
+                print("Saving Product images with product id: \(product.prod_id)")
+            }
+        } catch {
+            print("Failed to save images: \(error.localizedDescription)")
+        }
+    }
+    
+    
+    // Fetch Products based on categories and fetch all categories
     func fetchProductsByCategory(category: String) -> [Products] {
         let fetchRequest = NSFetchRequest<Products>(entityName: "Products")
         fetchRequest.predicate = NSPredicate(format: "category == %@", category)
@@ -128,7 +168,7 @@ struct CoreDataManager {
         }
     }
     
-    func fetchAllFavorites() -> [FavProducts] { // Getting all the data in FavProducts Entity
+    func fetchAllFavorites() -> [FavProducts] { // Getting all the data from FavProducts Entity
         let fetchRequest = NSFetchRequest<FavProducts>(entityName: "FavProducts")
         
         do {
