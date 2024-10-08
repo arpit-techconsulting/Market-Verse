@@ -34,11 +34,11 @@ class FavProductsViewModel: ObservableObject {
         }
     }
     
-    func isFavorite(productID: Int) -> Bool { // Func to say if a product is true or false
+    func isFavorite(productID: Int) -> Bool { // Func to say if a product is favorite or not
         return coreDataManager.isProductFavorite(productID: productID)
     }
     
-    func getProductByID(productID: Int) -> Products? { // func to get a single product from Products Entity
+    func getProductByID(productID: Int) -> Products? { // func to get a single product from Products Entity based on product id
         return coreDataManager.getProductByID(productID: productID)
     }
 }

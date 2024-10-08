@@ -48,7 +48,7 @@ struct HomeView: View {
                         await homeViewModel.fetchApiData()
                         DispatchQueue.main.async {
                             categories = homeViewModel.fetchAllCategories()
-                            print("Fetched categories after API call: \(categories)")
+                            print("Fetched categories after API call: \(categories)") // Do it in view model
                         }
                     }
     

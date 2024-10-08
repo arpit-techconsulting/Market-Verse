@@ -11,7 +11,7 @@ struct HomeViewModel {
     private let networkManager = NetworkManager()
     private let coreDataManager = CoreDataManager() // there are two dependencies in one structure, work on removing the dependencies (not a good practice)
     
-    func fetchApiData() async {
+    func fetchApiData() async { // put this in main actor
         // Check if data is already saved in Core Data
 //        let isDataSaved = UserDefaults.standard.bool(forKey: "isDataSaved")
 //        guard !isDataSaved else {
@@ -19,6 +19,8 @@ struct HomeViewModel {
 //            completion()
 //            return
 //        }
+        
+        // Do error handling of APIs
         
         do {
             let apiData: Model = try await networkManager.apiCall(apiUrl: "https://dummyjson.com/products?limit=0&skip=0")
@@ -36,8 +38,7 @@ struct HomeViewModel {
         coreDataManager.fetchProductsByCategory(category: category)
     }
     
-    @MainActor
-    func fetchAllCategories() -> [String] {
+    func fetchAllCategories() -> [String] { 
         coreDataManager.fetchAllCategories()
     }
 }
