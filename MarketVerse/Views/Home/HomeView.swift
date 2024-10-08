@@ -23,7 +23,7 @@ struct HomeView: View {
     }
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             TabBarView(selectedTab: $selectedTab, homeViewModel: homeViewModel, categories: categories, favProductsViewModel: favProductsViewModel)
                 .navigationTitle(navigationTitle(for: selectedTab))
                 .navigationBarTitleDisplayMode(.inline)
