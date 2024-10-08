@@ -28,7 +28,7 @@ struct CategoryRowView: View {
             .padding(.horizontal)
             
             ScrollView(.horizontal, showsIndicators: false) {
-                HStack(alignment: .top, spacing: 16) { // Use lazyHStack, lazyVStack...
+                LazyHStack(alignment: .top, spacing: 16) { // Use lazyHStack, lazyVStack...
                     ForEach(products, id: \.self) {product in
                         ProductCardView(product: product, favProductsViewModel: favProductsViewModel)
                     }
