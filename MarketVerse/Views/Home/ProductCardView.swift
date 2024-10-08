@@ -63,7 +63,7 @@ struct ProductCardView: View {
                 Text("Brand: \(product.brand ?? "Unknown")")
                     .font(.caption)
                     .lineLimit(1)
-                Text("Price: ₹\(String(format: "%.2f", product.price))")
+                Text("Price: $\(String(format: "%.2f", product.price))")
                     .font(.caption)
                     .lineLimit(1)
                 Text("\(String(format: "%.2f", product.discPerc))% OFF")
