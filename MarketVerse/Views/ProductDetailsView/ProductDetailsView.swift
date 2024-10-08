@@ -10,6 +10,7 @@ import SwiftUI
 struct ProductDetailsView: View {
     @ObservedObject var favProductsViewModel: FavProductsViewModel
     var product: Products
+    @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
         ScrollView {
@@ -96,11 +97,10 @@ struct ProductDetailsView: View {
             
             ToolbarItem(placement: .navigationBarLeading) {
                 Button(action: {
-                // Go back to previous view
-//                    selectedtab = .home
+                    presentationMode.wrappedValue.dismiss() // Dismiss the current view and go back without refreshing
                 }) {
                     Image(systemName: "chevron.left")
-                        .foregroundColor(.black) // Customize the color
+                        .foregroundColor(.black)
                 }
             }
             
