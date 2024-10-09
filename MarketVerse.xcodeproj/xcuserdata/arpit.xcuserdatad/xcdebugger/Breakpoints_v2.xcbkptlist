@@ -18,36 +18,6 @@
             endingLineNumber = "25"
             landmarkName = "saveToCoreData(products:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "FF925390-5F7E-43B2-82FF-FD3E1E65DE5F - ae00672baa761c72"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (MarketVerse.Prods) -&gt; () in MarketVerse.CoreDataManager.saveToCoreData(products: Swift.Array&lt;MarketVerse.Prods&gt;) async -&gt; ()"
-                  moduleName = "MarketVerse.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/arpit/Documents/ios_dev/MarketVerse/MarketVerse/CoreDataManager/CoreDataManager.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "25"
-                  endingLineNumber = "25">
-               </Location>
-               <Location
-                  uuid = "FF925390-5F7E-43B2-82FF-FD3E1E65DE5F - ae00672baa761c72"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (MarketVerse.Prods) -&gt; () in MarketVerse.CoreDataManager.saveToCoreData(products: Swift.Array&lt;MarketVerse.Prods&gt;) async -&gt; ()"
-                  moduleName = "MarketVerse.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/arpit/Documents/ios_dev/MarketVerse/MarketVerse/CoreDataManager/CoreDataManager.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "25"
-                  endingLineNumber = "25">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
