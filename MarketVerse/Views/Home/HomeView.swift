@@ -10,7 +10,7 @@ import SwiftUI
 // Parent View
 struct HomeView: View {
     
-    private let homeViewModel = HomeViewModel()
+    @StateObject var homeViewModel: HomeViewModel
     @State private var selectedTab: Tab = .home
     @State private var categories: [String] = []
     
@@ -70,5 +70,6 @@ struct HomeView: View {
 
 #Preview {
     let previewFavProductsViewModel = FavProductsViewModel()
-    return HomeView(favProductsViewModel: previewFavProductsViewModel)
+    let previewHomeViewModel = HomeViewModel()
+    HomeView(homeViewModel: previewHomeViewModel, favProductsViewModel: previewFavProductsViewModel)
 }
