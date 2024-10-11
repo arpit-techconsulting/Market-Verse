@@ -1,10 +1,3 @@
-//
-//  Home.swift
-//  MarketVerse
-//
-//  Created by Arpit Mallick on 10/3/24.
-//
-
 import SwiftUI
 
 // Parent View
@@ -26,20 +19,7 @@ struct HomeView: View {
         TabBarView(selectedTab: $selectedTab, homeViewModel: homeViewModel, categories: homeViewModel.categories, favProductsViewModel: favProductsViewModel)
             .navigationTitle(navigationTitle(for: selectedTab))
             .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    if selectedTab == .home {
-                        Button(action: {
-                            // Action for cart icon button
-                            print("Cart icon tapped")
-                        }) {
-                            Image(systemName: "cart.fill")
-                                .accentColor(Color(hex: "#edc240"))
-                        }
-                    }
-                }
-            }
-            .onAppear() {
+            .onAppear {
                 let paths = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)
                 print(paths[0])
                 
@@ -47,7 +27,9 @@ struct HomeView: View {
                     await homeViewModel.fetchApiData() // Fetch API data only if not already in Core Data
                     await homeViewModel.fetchAllCategories() // Load categories from Core Data
                 }
-                
+            }
+            .alert(item: $homeViewModel.errorMessage) { errorMessage in
+                Alert(title: Text("Error"), message: Text(errorMessage.message), dismissButton: .default(Text("OK")))
             }
     }
     

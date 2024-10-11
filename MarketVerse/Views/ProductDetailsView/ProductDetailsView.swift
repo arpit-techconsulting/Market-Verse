@@ -1,10 +1,3 @@
-//
-//  ProductDetailsView.swift
-//  MarketVerse
-//
-//  Created by Arpit Mallick on 10/7/24.
-//
-
 import SwiftUI
 
 struct ProductDetailsView: View {
@@ -13,88 +6,105 @@ struct ProductDetailsView: View {
     @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading) {
-                
-                // Image slider using tabView
-                TabView {
-                    if let images = product.img?.allObjects as? [Images] {
-                        ForEach(images, id: \.self) {image in
-                            if let imageUrl = URL(string: image.img_url ?? "") {
-                                AsyncImage(url: imageUrl) {phase in
-                                    switch phase {
-                                    case .empty:
-                                        ProgressView()
-                                            .frame(maxWidth: .infinity, maxHeight: .infinity)
-                                    case .success(let image):
-                                        image
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fit)
-                                            .frame(maxWidth: .infinity, maxHeight: .infinity)
-                                    case .failure:
-                                        Image(systemName: "photo")
-                                            .resizable()
-                                            .scaledToFit()
-                                            .frame(maxWidth: .infinity, maxHeight: 300)
-                                    @unknown default:
-                                        EmptyView()
+        ZStack {
+            ScrollView {
+                VStack(alignment: .leading) {
+                    
+                    // Image slider using TabView
+                    TabView {
+                        if let images = product.img?.allObjects as? [Images] {
+                            ForEach(images, id: \.self) { image in
+                                if let imageUrl = URL(string: image.img_url ?? "") {
+                                    AsyncImage(url: imageUrl) { phase in
+                                        switch phase {
+                                        case .empty:
+                                            ProgressView()
+                                                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                        case .success(let image):
+                                            image
+                                                .resizable()
+                                                .aspectRatio(contentMode: .fit)
+                                                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                        case .failure:
+                                            Image(systemName: "photo")
+                                                .resizable()
+                                                .scaledToFit()
+                                                .frame(maxWidth: .infinity, maxHeight: 300)
+                                        @unknown default:
+                                            EmptyView()
+                                        }
                                     }
                                 }
                             }
                         }
                     }
-                }
-                .tabViewStyle(PageTabViewStyle(indexDisplayMode: .automatic))
-                .frame(height: 300)
-                
-                //Product Title
-                Text(product.title ?? "Unknown")
-                    .font(.title2)
-                    .fontWeight(.bold)
-                    .padding(.top, 8)
-                
-                //Brand
-                Text(product.brand ?? "Unknown")
-                    .font(.subheadline)
-                    .foregroundColor(.gray)
-                
-                //Price and discount
-                HStack(spacing: 8) {
+                    .tabViewStyle(PageTabViewStyle(indexDisplayMode: .automatic))
+                    .frame(height: 300)
                     
-                    Text("$\(String(format: "%.2f", product.price))")
-                        .font(.title3)
+                    // Product Title
+                    Text(product.title ?? "Unknown")
+                        .font(.title2)
                         .fontWeight(.bold)
+                        .padding(.top, 8)
                     
-                    Text("$\(String(format: "%.2f", product.price / (1 - product.discPerc / 100)))")
+                    // Brand
+                    Text(product.brand ?? "Unknown")
                         .font(.subheadline)
-                        .strikethrough()
                         .foregroundColor(.gray)
                     
-                    Text("\(String(format: "%.0f", product.discPerc))% OFF")
-                        .font(.subheadline)
-                        .foregroundColor(Color(hex: "#DB3022"))
+                    // Price and discount
+                    HStack(spacing: 8) {
+                        Text("$\(String(format: "%.2f", product.price))")
+                            .font(.title3)
+                            .fontWeight(.bold)
+                        
+                        Text("$\(String(format: "%.2f", favProductsViewModel.calculatePriceBeforeDiscount(price: product.price, discPerc: product.discPerc)))")
+                            .font(.subheadline)
+                            .strikethrough()
+                            .foregroundColor(.gray)
+                        
+                        Text("\(String(format: "%.0f", product.discPerc))% OFF")
+                            .font(.subheadline)
+                            .foregroundColor(Color(hex: "#DB3022"))
+                    }
+                    .padding(.vertical, 8)
+                    
+                    Divider()
+                    
+                    // Product Details
+                    Text("Product Details")
+                        .font(.headline)
+                        .padding(.bottom, 4)
+                    
+                    Text(product.desc ?? "No product description available.")
+                        .font(.body)
+                        .foregroundColor(.gray)
+                        .padding(.bottom, 16)
                 }
-                .padding(.vertical, 8)
-                
-                Divider()
-                
-                //Product Details
-                Text("Product Details")
-                    .font(.headline)
-                    .padding(.bottom, 4)
-                
-                Text(product.desc ?? "No product description available.")
-                    .font(.body)
-                    .foregroundColor(.gray)
-                    .padding(.bottom, 16)
+                .padding(.horizontal)
+                .padding(.bottom, 60) // Extra padding to avoid the content being hidden by the button
             }
-            .padding(.horizontal)
+            
+            // Add to Cart Button
+            VStack {
+                Spacer()
+                Button(action: {
+                    print("Add to Cart button tapped")
+                }) {
+                    Text("Add to Cart")
+                        .font(.headline)
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color(hex: "#DB3022"))
+                        .cornerRadius(10)
+                        .padding(.horizontal)
+                }
+            }
         }
         .navigationTitle(product.title ?? "Product Details")
         .navigationBarTitleDisplayMode(.inline)
-        
         .toolbar {
-            
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button(action: {
                     favProductsViewModel.toggleFavoriteStatus(productID: Int(product.prod_id))

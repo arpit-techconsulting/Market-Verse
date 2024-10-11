@@ -48,4 +48,8 @@ class FavProductsViewModel: ObservableObject, FavProductsViewModelActions {
     func getProductByID(productID: Int) -> Products? { // func to get a single product from Products Entity based on product id
         return coreDataManager.getProductByID(productID: productID)
     }
+    
+    func calculatePriceBeforeDiscount(price: Double, discPerc: Double) -> Double {
+        return price / (1 - discPerc / 100)
+    }
 }

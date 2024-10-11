@@ -27,6 +27,17 @@ struct TabBarView: View {
                 }
                 .navigationTitle("Home")
                 .navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button(action: {
+                            // Action for cart icon button
+                            print("Cart icon tapped")
+                        }) {
+                            Image(systemName: "cart.fill")
+                                .accentColor(Color(hex: "#edc240"))
+                        }
+                    }
+                }
             }
             .tabItem {
                 Label("Home", systemImage: "house.fill")

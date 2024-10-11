@@ -11,6 +11,7 @@ import CoreData
 protocol CoreDataManagerAction {
     func saveToCoreData(products: [Prods]) async
     func saveImages(product: Products, imageUrls: [String])
+    func isDataSavedToCoreData() -> Bool
     func areImagesSavedForProduct(productID: Int) -> Bool
     func fetchProductsByCategory(category: String) -> [Products]
     func fetchAllCategories() -> [String]
@@ -78,17 +79,17 @@ struct CoreDataManager: CoreDataManagerAction {
         }
     }
     
-//    func isDataSavedToCoreData() -> Bool {
-//        let fetchRequest = NSFetchRequest<Products>(entityName: "Products")
-//        
-//        do {
-//            let count = try context.count(for: fetchRequest)
-//            return count > 0
-//        } catch {
-//            print("Failed to check data is stored in Core data: \(error.localizedDescription)")
-//            return false
-//        }
-//    }
+    func isDataSavedToCoreData() -> Bool {
+        let fetchRequest = NSFetchRequest<Products>(entityName: "Products")
+        
+        do {
+            let count = try context.count(for: fetchRequest)
+            return count > 0
+        } catch {
+            print("Failed to check data is stored in Core data: \(error.localizedDescription)")
+            return false
+        }
+    }
     
     // Save the images to Images Entity
     func saveImages(product: Products, imageUrls: [String]) {
