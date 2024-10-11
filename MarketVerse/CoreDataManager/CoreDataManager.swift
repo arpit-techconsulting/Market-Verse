@@ -11,6 +11,7 @@ import CoreData
 protocol CoreDataManagerAction {
     func saveToCoreData(products: [Prods]) async
     func saveImages(product: Products, imageUrls: [String])
+    func areImagesSavedForProduct(productID: Int) -> Bool
     func fetchProductsByCategory(category: String) -> [Products]
     func fetchAllCategories() -> [String]
     func updateFavoriteStatus(productID: Int, isFavorite: Bool)
@@ -59,7 +60,9 @@ struct CoreDataManager: CoreDataManagerAction {
                 prodEntity.minOrderQuant = prod.minimumOrderQuantity
                 prodEntity.thumbnail = prod.thumbnail
                 
-                saveImages(product: prodEntity, imageUrls: prod.images)
+                if !areImagesSavedForProduct(productID: Int(prod.id)) {
+                    saveImages(product: prodEntity, imageUrls: prod.images)
+                }
                 
             } catch {
                 print("Failed to fetch or save product: \(error.localizedDescription)")
@@ -75,28 +78,39 @@ struct CoreDataManager: CoreDataManagerAction {
         }
     }
     
+//    func isDataSavedToCoreData() -> Bool {
+//        let fetchRequest = NSFetchRequest<Products>(entityName: "Products")
+//        
+//        do {
+//            let count = try context.count(for: fetchRequest)
+//            return count > 0
+//        } catch {
+//            print("Failed to check data is stored in Core data: \(error.localizedDescription)")
+//            return false
+//        }
+//    }
+    
     // Save the images to Images Entity
     func saveImages(product: Products, imageUrls: [String]) {
-        let imageFetchRequest = NSFetchRequest<Images>(entityName: "Images")
-        imageFetchRequest.predicate = NSPredicate(format: "product == %@", product)
+        // Assigning new images
+        for imageUrl in imageUrls {
+            let imageEntity = Images(context: context)
+            imageEntity.img_url = imageUrl
+            imageEntity.prod_id = product.prod_id
+            imageEntity.product = product // Set the relationship to the product
+        }
+    }
+    
+    func areImagesSavedForProduct(productID: Int) -> Bool {
+        let fetchRequest = NSFetchRequest<Images>(entityName: "Images")
+        fetchRequest.predicate = NSPredicate(format: "prod_id == %d", productID)
         
         do {
-            let existingImages = try context.fetch(imageFetchRequest)
-            
-            // Delete existing images
-            for existingImage in existingImages {
-                context.delete(existingImage)
-            }
-            
-            // Assigning new images
-            imageUrls.forEach {imageUrl in
-                let imageEntity = Images(context: context)
-                imageEntity.img_url = imageUrl
-                imageEntity.prod_id = product.prod_id
-                print("Saving Product images with product id: \(product.prod_id)")
-            }
+            let count = try context.count(for: fetchRequest)
+            return count > 0
         } catch {
-            print("Failed to save images: \(error.localizedDescription)")
+            print("Failed to check images are saved for productID: \(error.localizedDescription)")
+            return false
         }
     }
     

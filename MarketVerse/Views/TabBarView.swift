@@ -1,10 +1,3 @@
-//
-//  TabBarView.swift
-//  MarketVerse
-//
-//  Created by Arpit Mallick on 10/3/24.
-//
-
 import SwiftUI
 
 // SubView
@@ -18,17 +11,22 @@ struct TabBarView: View {
     
     var body: some View {
         TabView(selection: $selectedTab) {
+            
             // Home Tab
-            ScrollView {
-                VStack(alignment: .leading) {
-                    ForEach(categories, id: \.self) {category in
-                        let products = homeViewModel.fetchProductsByCategory(category: category)
-                        if !products.isEmpty {
-                            CategoryRowView(category: category, products: products, favProductsViewModel: favProductsViewModel)
+            NavigationStack {
+                ScrollView {
+                    VStack(alignment: .leading) {
+                        ForEach(categories, id: \.self) { category in
+                            let products = homeViewModel.fetchProductsByCategory(category: category)
+                            if !products.isEmpty {
+                                CategoryRowView(category: category, products: products, favProductsViewModel: favProductsViewModel)
+                            }
                         }
                     }
+                    .padding()
                 }
-                .padding()
+                .navigationTitle("Home")
+                .navigationBarTitleDisplayMode(.inline)
             }
             .tabItem {
                 Label("Home", systemImage: "house.fill")
@@ -36,24 +34,27 @@ struct TabBarView: View {
             .tag(HomeView.Tab.home)
             
             // Favorites Tab
-            FavoriteView(favProductsViewModel: favProductsViewModel, selectedTab: $selectedTab)
-                .tabItem {
-                    Label("Favorites", systemImage: "heart.fill")
-                }
-                .tag(HomeView.Tab.favorites)
+            NavigationStack {
+                FavoriteView(favProductsViewModel: favProductsViewModel, selectedTab: $selectedTab)
+                    .navigationTitle("WishList")
+                    .navigationBarTitleDisplayMode(.inline)
+            }
+            .tabItem {
+                Label("Favorites", systemImage: "heart.fill")
+            }
+            .tag(HomeView.Tab.favorites)
             
             // Account Tab
-            Text("Account View")
-                .tabItem {
-                    Label("Account", systemImage: "person.fill")
-                }
-                .tag(HomeView.Tab.account)
+            NavigationStack {
+                Text("Account View")
+                    .navigationTitle("Account")
+                    .navigationBarTitleDisplayMode(.inline)
+            }
+            .tabItem {
+                Label("Account", systemImage: "person.fill")
+            }
+            .tag(HomeView.Tab.account)
         }
-        .accentColor(Color.init(hex: "#DB3022"))
-        
+        .accentColor(Color(hex: "#DB3022"))
     }
 }
-
-//#Preview {
-//    TabBarView(selectedTab: .constant(.home), homeViewModel: HomeVM())
-//}

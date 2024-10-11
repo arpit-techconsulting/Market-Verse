@@ -7,8 +7,6 @@
 
 import CoreData
 
-import CoreData
-
 struct PersistenceController {
     static let shared = PersistenceController()
 
@@ -24,18 +22,6 @@ struct PersistenceController {
         // Enable migration
         container.persistentStoreDescriptions.first?.shouldMigrateStoreAutomatically = true
         container.persistentStoreDescriptions.first?.shouldInferMappingModelAutomatically = true
-
-        // Remove existing persistent store if necessary
-        let storeURL = container.persistentStoreDescriptions.first?.url
-        let fileManager = FileManager.default
-        if let storeURL = storeURL, fileManager.fileExists(atPath: storeURL.path) {
-            do {
-                try fileManager.removeItem(at: storeURL)
-                print("Persistent store removed successfully")
-            } catch {
-                print("Failed to remove persistent store: \(error)")
-            }
-        }
 
         container.loadPersistentStores { storeDescription, error in
             if let error = error as NSError? {

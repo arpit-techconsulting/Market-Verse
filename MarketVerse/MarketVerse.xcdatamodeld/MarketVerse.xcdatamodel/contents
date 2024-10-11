@@ -17,7 +17,7 @@
     <entity name="Images" representedClassName="Images" syncable="YES" codeGenerationType="class">
         <attribute name="img_url" optional="YES" attributeType="String"/>
         <attribute name="prod_id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
-        <relationship name="product" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Products" inverseName="images" inverseEntity="Products"/>
+        <relationship name="product" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Products" inverseName="img" inverseEntity="Products"/>
     </entity>
     <entity name="Products" representedClassName="Products" syncable="YES" codeGenerationType="class">
         <attribute name="availableStatus" optional="YES" attributeType="String"/>
@@ -37,7 +37,7 @@
         <attribute name="title" optional="YES" attributeType="String"/>
         <attribute name="warrantyInfo" optional="YES" attributeType="String"/>
         <attribute name="weight" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
-        <relationship name="images" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Images" inverseName="product" inverseEntity="Images"/>
+        <relationship name="img" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Images" inverseName="product" inverseEntity="Images"/>
     </entity>
     <entity name="Reviews" representedClassName="Reviews" syncable="YES" codeGenerationType="class">
         <attribute name="comment" optional="YES" attributeType="String"/>

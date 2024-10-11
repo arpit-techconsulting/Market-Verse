@@ -18,7 +18,7 @@ struct ProductDetailsView: View {
                 
                 // Image slider using tabView
                 TabView {
-                    if let images = product.images?.allObjects as? [Images] {
+                    if let images = product.img?.allObjects as? [Images] {
                         ForEach(images, id: \.self) {image in
                             if let imageUrl = URL(string: image.img_url ?? "") {
                                 AsyncImage(url: imageUrl) {phase in
@@ -94,15 +94,6 @@ struct ProductDetailsView: View {
         .navigationBarTitleDisplayMode(.inline)
         
         .toolbar {
-            
-            ToolbarItem(placement: .navigationBarLeading) {
-                Button(action: {
-                    presentationMode.wrappedValue.dismiss() // Dismiss the current view and go back without refreshing
-                }) {
-                    Image(systemName: "chevron.left")
-                        .foregroundColor(.black)
-                }
-            }
             
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button(action: {

@@ -7,26 +7,24 @@
 
 import Foundation
 
-struct HomeViewModel {
+protocol HomeViewModelActions {
+    func fetchApiData() async
+    func fetchProductsByCategory(category: String) -> [Products]
+    func fetchAllCategories() async
+}
+
+class HomeViewModel: ObservableObject, HomeViewModelActions {
     private let networkManager = NetworkManager()
     private let coreDataManager = CoreDataManager() // there are two dependencies in one structure, work on removing the dependencies (not a good practice)
-    
+    @Published var categories: [String] = []
+
     func fetchApiData() async {
-        // Check if data is already saved in Core Data
-//        let isDataSaved = UserDefaults.standard.bool(forKey: "isDataSaved")
-//        guard !isDataSaved else {
-//            print("Data is already saved in Core Data. Skipping Api Call")
-//            completion()
-//            return
-//        }
         
+        // Do error handling of APIs
         do {
             let apiData: Model = try await networkManager.apiCall(apiUrl: "https://dummyjson.com/products?limit=0&skip=0")
-//            print(apiData)
+            //            print(apiData)
             await coreDataManager.saveToCoreData(products: apiData.products)
-            
-            // Set flag for storing data in Core Data
-//            UserDefaults.standard.set(true, forKey: "isDataSaved")
         } catch {
             print("Error in fetching data from Api: \(error.localizedDescription)")
         }
@@ -36,8 +34,10 @@ struct HomeViewModel {
         coreDataManager.fetchProductsByCategory(category: category)
     }
     
-    @MainActor
-    func fetchAllCategories() -> [String] {
-        coreDataManager.fetchAllCategories()
+    func fetchAllCategories() async {
+        DispatchQueue.main.async {
+            self.categories = self.coreDataManager.fetchAllCategories()
+            print("Fetched categories after API call: \(self.categories)") // Do it in view model
+        }
     }
 }
